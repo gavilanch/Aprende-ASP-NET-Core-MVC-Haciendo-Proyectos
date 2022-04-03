@@ -1,0 +1,56 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  solution: '**/*.sln'
+  proyectoMVC: 'ManejoPresupuesto/ManejoPresupuesto.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Instalar .NET 6'
+  inputs:
+    packageType: 'sdk'
+    version: '6.0.x'
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  displayName: 'Compilar solucion'
+  inputs:
+    solution: '**\*.sln'
+    configuration:  '$(buildConfiguration)'
+    msbuildArgs: '/p:DSP=Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider'
+
+- task: CopyFiles@2
+  inputs:
+    Contents: '**/*.dacpac'
+    flattenFolders: true
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/db'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Construyendo los artefactos...'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: $(proyectoMVC)
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)/webapp --runtime win-x86 --self-contained'
+    zipAfterPublish: false
+    modifyOutputPath: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publicando los artefactos'
