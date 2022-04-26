@@ -49,6 +49,8 @@ namespace ManejoPresupuesto.Servicios
         public async Task<Cuenta> ObtenerPorId(int id, int usuarioId)
         {
             using var connection = new SqlConnection(connectionString);
+            // Nota del profesor: Aquí hay un error que corrijo más adelante. 
+            // En vez de tc.Id (en el SELECT), debe ser TipoCuentaId
             return await connection.QueryFirstOrDefaultAsync<Cuenta>(
                 @"SELECT Cuentas.Id, Cuentas.Nombre, Balance, Descripcion, tc.Id
                 FROM Cuentas
