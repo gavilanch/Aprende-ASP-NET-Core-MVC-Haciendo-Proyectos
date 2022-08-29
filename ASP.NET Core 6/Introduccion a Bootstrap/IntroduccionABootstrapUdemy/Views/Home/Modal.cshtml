@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!--Botón abre modal-->
+
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ejemploModal">
+    Abrir modal
+</button>
+
+<!--Modal-->
+
+<div class="modal fade" id="ejemploModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Título del modal</h5>
+                <button type="button" class="btn-close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Este es un pequeño formulario</p>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary" data-bs-dismiss="modal">Salvar cambios</button>
+            </div>
+        </div>
+    </div>
+</div>

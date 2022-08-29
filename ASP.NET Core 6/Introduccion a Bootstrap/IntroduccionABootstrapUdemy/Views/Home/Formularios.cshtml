@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Formulario Normal</h2>
+
+<form>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea type="email" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Color favorito</label>
+        <select class="form-select">
+            <option value="1">Azul</option>
+            <option value="2">Rojo</option>
+            <option value="3">Verde</option>
+        </select>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" checked />
+        <label class="form-label">Es Empleado</label>
+    </div>
+
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="miradio" />
+        <label>Opción 1</label>
+    </div>
+    <div class="form-check">
+        <input type="radio" class="form-check-input" name="miradio" />
+        <label>Opción 2</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" placeholder="email" />
+        <label>Email</label>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" disabled />
+    </div>
+
+    <div class="mb-3">
+        <label>Color de la camisa</label>
+        <input type="color" class="form-control form-control-color" value="#563d7c" />
+    </div>
+    <div>
+        <button class="btn btn-primary">Enviar</button>
+        <button class="btn btn-secondary">Cancelar</button>
+    </div>
+</form>
+
+<h2>Formulario con columnas</h2>
+
+<div class="row">
+    <div class="col">
+        <input type="text" class="form-control" placeholder="Primer nombre" />
+    </div>
+    <div class="col">
+        <input type="text" class="form-control" placeholder="Primer apellido" />
+    </div>
+    <div class="col">
+        <button class="btn btn-primary">Enviar</button>
+    </div>
+</div>
