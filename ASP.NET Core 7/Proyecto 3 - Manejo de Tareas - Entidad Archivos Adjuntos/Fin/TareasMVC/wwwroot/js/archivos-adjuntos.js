@@ -116,7 +116,7 @@ async function actualizarOrdenArchivos() {
     await enviarIdsArchivosAlBackend(ids);
 
     const arregloOrganizado = tareaEditarVM.archivosAdjuntos.sorted(function (a, b) {
-        return ids.indexOf(a.id().toString()) - ids.indexOf(b.id().toString());
+        return ids.indexOf(a.id.toString()) - ids.indexOf(b.id.toString());
     })
 
     tareaEditarVM.archivosAdjuntos(arregloOrganizado);
