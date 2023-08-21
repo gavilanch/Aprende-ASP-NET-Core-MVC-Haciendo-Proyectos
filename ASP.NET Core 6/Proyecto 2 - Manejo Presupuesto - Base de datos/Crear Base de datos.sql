@@ -164,6 +164,17 @@ CREATE TABLE [dbo].[TiposOperaciones](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+SET IDENTITY_INSERT [dbo].[TiposOperaciones] ON 
+GO
+INSERT [dbo].[TiposOperaciones] ([Id], [Descripcion]) VALUES (1, N'Ingreso')
+GO
+INSERT [dbo].[TiposOperaciones] ([Id], [Descripcion]) VALUES (2, N'Gasto')
+GO
+SET IDENTITY_INSERT [dbo].[TiposOperaciones] OFF
+GO
+
+
 /****** Object:  Table [dbo].[Transacciones]    Script Date: 10-Nov-21 5:23:42 PM ******/
 SET ANSI_NULLS ON
 GO
