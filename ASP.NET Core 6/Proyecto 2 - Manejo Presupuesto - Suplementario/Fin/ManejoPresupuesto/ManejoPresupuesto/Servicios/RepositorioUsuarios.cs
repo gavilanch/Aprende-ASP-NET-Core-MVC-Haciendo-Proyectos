@@ -6,6 +6,7 @@ namespace ManejoPresupuesto.Servicios
 {
     public interface IRepositorioUsuarios
     {
+        Task Actualizar(Usuario usuario);
         Task<Usuario> BuscarUsuarioPorEmail(string emailNormalizado);
         Task<int> CrearUsuario(Usuario usuario);
     }
@@ -40,6 +41,15 @@ namespace ManejoPresupuesto.Servicios
                 "SELECT * FROM Usuarios Where EmailNormalizado = @emailNormalizado", 
                 new { emailNormalizado });
             return usuario;
+        }
+
+        public async Task Actualizar(Usuario usuario)
+        {
+            using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(@"
+            UPDATE Usuarios 
+            SET PasswordHash = @PasswordHash
+            WHERE Id = @Id", usuario);
         }
     }
 }
