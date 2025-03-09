@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>efcdb966-a197-4312-ba5c-309882db05e7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\imagenes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SendGrid" Version="9.24.4" />
+  </ItemGroup>
+
+</Project>

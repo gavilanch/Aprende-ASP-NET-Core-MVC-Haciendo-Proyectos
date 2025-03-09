@@ -1,0 +1,43 @@
+﻿@model CuentaCreacionViewModel
+
+@{
+    ViewData["Title"] = "Editar Cuenta";
+}
+
+<h1>Editar cuenta: @Model.Nombre</h1>
+
+
+<form asp-action="Editar">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TipoCuentaId" class="form-label"></label>
+        <select asp-for="TipoCuentaId" asp-items="Model.TiposCuentas" class="form-select"></select>
+        <span asp-validation-for="TipoCuentaId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Balance" class="form-label"></label>
+        <input asp-for="Balance" class="form-control" />
+        <span asp-validation-for="Balance" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label"></label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
