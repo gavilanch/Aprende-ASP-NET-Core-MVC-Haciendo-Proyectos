@@ -1,0 +1,81 @@
+﻿@model EntradaEditarViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Editar Entrada";
+    var mostrarInputFile = string.IsNullOrEmpty(Model.ImagenPortadaActual);
+}
+
+<h1>Editar entrada</h1>
+
+<h5>
+    Aquí podemos editar una entrada al blog
+</h5>
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<form enctype="multipart/form-data" asp-action="Editar" id="formEntrada">
+    <div class="mb-3">
+        <label asp-for="Titulo" class="form-label"></label>
+        <input type="text" autocomplete="off" asp-for="Titulo" class="form-control" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cuerpo" class="form-label"></label>
+        <input style="display: none" asp-for="Cuerpo" class="form-control" />
+        <div id="editor"></div>
+        <span id="cuerpo-error" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <input type="hidden" id="imagenRemovida" name="imagenRemovida" value="false" />
+        <input type="hidden" asp-for="ImagenPortadaActual" />
+
+        <label asp-for="ImagenPortada" class="form-label"></label>
+
+        <input type="file" asp-for="ImagenPortada" class="form-control"
+            onchange="mostrarPrevisualizacion(event)"
+            style="@(mostrarInputFile ? "display: block;" : "display:none")"
+        />
+
+        <span asp-validation-for="ImagenPortada" class="text-danger"></span>
+
+        <img id="PreviewImagen" class="mb-3 mt-3" src="@Model.ImagenPortadaActual"
+             style="@(mostrarInputFile ? "display: none;" : "display: block;") width: 400px" />
+
+        <button id="btnRemoverImagen" onclick="removerImagen()" type="button"
+                class="btn btn-secondary" 
+                style="@(mostrarInputFile ? "display: none;" : "display: inline;")">Remover</button>
+
+    </div>
+
+    <button type="button" onclick="btnEnviarClick()" class="btn btn-primary">Enviar</button>
+    <a class="btn btn-secondary" asp-action="Index" asp-controller="Home">Cancelar</a>
+
+</form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/formulario-entradas.js"></script>
+
+    <script>
+        function removerImagen(){
+            const btnRemoverImagen = document.getElementById("btnRemoverImagen");
+            const previewImagen = document.getElementById("PreviewImagen");
+            const imagenRemovida = document.getElementById("imagenRemovida");
+            const inputImagenPortada = document.getElementById("ImagenPortada");
+
+            previewImagen.style.display = "none";
+            btnRemoverImagen.style.display = "none";
+            inputImagenPortada.style.display = "block";
+            imagenRemovida.value = "true";
+        }
+
+        let contenidoCuerpo = $("#Cuerpo").val();
+        let jsonDelta = JSON.parse(contenidoCuerpo);
+        cargarContenido(jsonDelta);
+    </script>
+}

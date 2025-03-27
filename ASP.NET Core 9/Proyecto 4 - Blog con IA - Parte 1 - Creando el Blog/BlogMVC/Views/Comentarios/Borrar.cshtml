@@ -1,0 +1,22 @@
+﻿@using BlogMVC.Entidades
+@model Comentario
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Borrar comentario";
+}
+
+
+<h1>Se borrará el siguiente comentario</h1>
+
+<p>
+    @Model.Cuerpo
+</p>
+
+<form asp-action="borrarComentario">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Borrar</button>
+    <a class="btn btn-secondary" asp-action="detalle" asp-controller="entradas" 
+    asp-route-id="@Model.EntradaId">Cancelar</a>
+</form>

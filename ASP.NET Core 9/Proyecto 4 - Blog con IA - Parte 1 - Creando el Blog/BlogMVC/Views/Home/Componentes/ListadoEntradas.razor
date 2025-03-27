@@ -1,0 +1,116 @@
+﻿@using BlogMVC.Datos
+@using BlogMVC.Models
+@using Microsoft.EntityFrameworkCore
+@inject IDbContextFactory<ApplicationDbContext> dbFactory
+@inject IJSRuntime JS
+@implements IDisposable
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var entrada in entradas)
+    {
+        <div class="col">
+            <div class="card h-100">
+                @if (string.IsNullOrEmpty(entrada.PortadaUrl))
+                {
+                    <a href="/entradas/detalle/@entrada.Id">
+                        <img src="/img/404.png" class="card-img-top" alt="portada de la entrada" />
+                    </a>
+                }
+                else
+                {
+                    <a href="/entradas/detalle/@entrada.Id">
+                        <img src="@entrada.PortadaUrl" class="card-img-top" alt="portada de la entrada" />
+                    </a>
+                }
+
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="text-decoration-none"
+                        href="/entradas/detalle/@entrada.Id">@entrada.Titulo</a>
+                    </h5>
+                    <p class="card-text">
+                        <small class="text-body-secondary">
+                            @entrada.FechaPublicacion.ToString("dd MMM, yyyy")
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (cargando)
+{
+    <img width="150" class="mt-3" src="/img/loading.gif" />
+}
+
+<div id="cargar-mas" style="height: 10px;"></div>
+
+@code {
+
+    private ApplicationDbContext? context { get; set; }
+    private List<HomeIndexEntradaViewModel> entradas = [];
+    private int indice = 0;
+    private int cantidadRegistrosSolicitar = 20;
+    private bool seguirBuscandoEntradas = true;
+    private bool cargando = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = dbFactory.CreateDbContext();
+        await BuscarEntradas();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("observarElemento", "cargar-mas",
+            DotNetObjectReference.Create(this));
+        }
+    }
+
+    private async Task BuscarEntradas()
+    {
+        cargando = true;
+        StateHasChanged();
+        var entradasLocal = await context!.Entradas
+         .OrderByDescending(x => x.FechaPublicacion)
+         .Skip(indice)
+         .Take(cantidadRegistrosSolicitar)
+         .Select(x => new HomeIndexEntradaViewModel
+             {
+                 Id = x.Id,
+                 Titulo = x.Titulo,
+                 PortadaUrl = x.PortadaUrl,
+                 FechaPublicacion = x.FechaPublicacion
+             }).ToListAsync();
+
+        seguirBuscandoEntradas = entradasLocal.Any();
+        entradas.AddRange(entradasLocal);
+        indice += cantidadRegistrosSolicitar;
+        cargando = false;
+    }
+
+    [JSInvokable]
+    public async Task CargarMasElementos()
+    {
+        if (cargando)
+        {
+            return;
+        }
+
+        if (seguirBuscandoEntradas)
+        {
+            await BuscarEntradas();
+            StateHasChanged();
+        }
+       
+    }
+
+    public void Dispose()
+    {
+        context?.Dispose();
+    }
+
+}
