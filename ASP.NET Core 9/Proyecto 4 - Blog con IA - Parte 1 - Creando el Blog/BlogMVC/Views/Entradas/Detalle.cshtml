@@ -39,6 +39,7 @@
 </div>
 <h6>@Model.EscritoPor | @fechaPublicacionConFormato</h6>
 
+
 @if (!string.IsNullOrEmpty(Model.PortadaUrl))
 {
     <img alt="portada" src="@Model.PortadaUrl" class="img-fluid" />
@@ -65,8 +66,8 @@
                 @if (comentario.MostrarBotonBorrar)
                 {
                     <div class="mt-2">
-                        <a class="btn btn-danger" asp-action="borrar" 
-                        asp-controller="comentarios" asp-route-id="@comentario.Id">
+                        <a class="btn btn-danger" asp-action="borrar"
+                           asp-controller="comentarios" asp-route-id="@comentario.Id">
                             Borrar comentario
                         </a>
                     </div>
@@ -116,5 +117,17 @@ else
                 document.querySelectorAll('pre').forEach(el => {
                     hljs.highlightElement(el);
                 });
+
+                function ajustarAncho(){
+                    const imagen = document.querySelector("img.img-fluid");
+                    const contenido = document.getElementById("contenido");
+
+                    if (imagen && contenido){
+                        contenido.style.width = imagen.clientWidth + "px";
+                    }
+                }
+
+                window.addEventListener("load", ajustarAncho);
+                window.addEventListener("resize", ajustarAncho);
     </script>
 }
