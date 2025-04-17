@@ -1,0 +1,40 @@
+﻿@model EntradasConComentariosNegativosViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Entradas con comentarios negativos";
+}
+
+<h2>Entradas Con Comentarios Negativos</h2>
+
+@if (Model.Entradas.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Cantidad Comentarios Negativos</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var entrada in Model.Entradas)
+            {
+             <tr>
+                    <td>@entrada.Titulo</td>
+                    <td>@entrada.CantidadComentariosNegativos</td>
+                    <td>
+                        <a class="btn btn-primary" asp-action="Detalle" asp-route-id="@entrada.Id">Ver Entrada</a>
+                    </td>
+             </tr>   
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    <p>No hay entradas con mensajes negativos</p>
+}

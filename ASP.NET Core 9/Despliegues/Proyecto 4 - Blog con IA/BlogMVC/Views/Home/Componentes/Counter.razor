@@ -1,0 +1,14 @@
+﻿<h3>Counter</h3>
+
+<p>Conteo actual: @conteoActual</p>
+
+<button class="btn btn-primary" @onclick="IncrementarContador">Hazme click</button>
+
+@code {
+    private int conteoActual = 0;
+
+    private void IncrementarContador()
+    {
+        conteoActual++;
+    }
+}
